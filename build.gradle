@@ -1,0 +1,147 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.7'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'application'
+
+    mainClassName = 'assignment.presentation.AssignmentApplication'
+    group = 'query-pie'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        sourceCompatibility = '17'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        //spring
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation('org.springframework.boot:spring-boot-starter-web')
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: '3.1.6'
+
+        // Dev Tools
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        //jpa
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+        // MySQL
+        runtimeOnly 'com.mysql:mysql-connector-j'
+
+        //lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+
+        // JWT
+        implementation group: 'io.jsonwebtoken',name:'jjwt',version:'0.9.1'
+        implementation 'javax.xml.bind:jaxb-api:2.3.1'
+        implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+
+        // modelmapper 라이브러리
+        implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+
+        // Redis
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+        // Validation
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+        // Swagger
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+        // Mapper
+        implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+        // QueryDSL
+        implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+        annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+        annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+        annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+        // Security
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+
+        // jackson-datatype-jsr310
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+bootJar { enabled = false }
+
+project(':presentation') {
+    bootJar { enabled = true }
+    jar {enabled = false }
+    dependencies {
+        implementation project(':service')
+
+        implementation project(':domain')
+        implementation project(':infrastructure')
+
+        implementation project(':exception')
+        implementation project(':core')
+    }
+}
+
+project(':service') {
+    bootJar { enabled = false }
+    jar {enabled = true }
+    dependencies {
+        implementation project(':domain')
+        implementation project(':infrastructure')
+    }
+}
+
+project(':domain') {
+    bootJar { enabled = false }
+    jar {enabled = true }
+    dependencies {
+        implementation project(':infrastructure')
+        implementation project(':exception')
+    }
+}
+
+project(':infrastructure') {
+    bootJar { enabled = false }
+    jar {enabled = true }
+    dependencies {
+        implementation project(':exception')
+    }
+}
+
+project(':core') {
+    bootJar { enabled = false }
+    jar {enabled = true }
+    dependencies {
+
+    }
+}
+
+project(':exception') {
+    bootJar { enabled = false }
+    jar {enabled = true }
+    dependencies {
+
+    }
+}
