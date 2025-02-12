@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: assignment
+      MYSQL_ROOT_PASSWORD: assignment1!
+      TZ: Asia/Seoul
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - docker-bridge
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    environment:
+      TZ: Asia/Seoul
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+    networks:
+      - docker-bridge
+
+networks:
+  docker-bridge:
+    driver: bridge
