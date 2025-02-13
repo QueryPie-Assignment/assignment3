@@ -40,6 +40,12 @@ jobs:
           echo "${{ secrets.APPLICATION_PRODUCTION_YML }}" | base64 --decode > presentation/src/main/resources/application-production.yml
           find presentation/src
 
+      # Prometheus YML 파일 생성 (GitHub Secrets에서 가져옴)
+      - name: Set Prometheus YML
+        run: |
+          echo "${{ secrets.PROMETHEUS_YML }}" | base64 --decode > ./prometheus.yml
+          ls -la
+
       # Gradle Build
       - name: Grant execute permission for Gradle
         run: chmod +x ./gradlew
