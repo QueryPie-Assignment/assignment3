@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/prometheus/prometheus.yml:ro
+    ports:
+      - 19090:9090
+    command:
+      - "--web.enable-lifecycle"
+    restart: always
+    user: root
+    networks:
+      - promnet
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - ./grafana-volume:/var/lib/grafana
+    restart: always
+    ports:
+      - 13030:3000
+    user: root
+    networks:
+      - promnet
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    restart: always
+    ports:
+      - "9100:9100"
+    networks:
+      - promnet
+
+networks:
+  promnet:
+    driver: bridge
