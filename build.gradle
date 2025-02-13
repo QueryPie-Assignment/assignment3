@@ -81,6 +81,12 @@ subprojects {
 
         // jackson-datatype-jsr310
         implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
+
+        // actuator
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+        // Prometheus
+        implementation 'io.micrometer:micrometer-registry-prometheus'
     }
 
     tasks.named('test') {
