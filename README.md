@@ -21,7 +21,7 @@ Query-Pie 프로젝트의 CI/CD 파이프라인은 **GitHub Actions**와 **Docke
 ## 🔧 1. CI/CD 파이프라인
 
 ### 1.1 GitHub Actions Workflow
-CI/CD 파이프라인은 `.github/workflows/query-pie.yml`에 정의되어 있습니다.
+CI/CD 파이프라인은 `.github/workflows/gradle.yml`에 정의되어 있습니다.
 
 ### 1.2 트리거 이벤트
 | 이벤트 | 동작 |
